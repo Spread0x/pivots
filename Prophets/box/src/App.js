@@ -67,10 +67,55 @@ class App extends Component {
     // Declaring this for later so we can chain functions on SimpleStorage.
     var simpleStorageInstance
 
+
+
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       simpleStorage.deployed().then((instance) => {
-        simpleStorageInstance = instance
+
+
+      simpleStorageInstance = instance
+
+
+      console.log('simpleStorage', simpleStorage);
+      console.log('instance', instance);
+      console.log('allEvents', instance.allEvents());
+
+      const eventValueUpdated = instance.ValueUpdated()
+      const eventStringValueUpdated = instance.StringValueUpdated()
+      console.log('eventValueUpdated',eventValueUpdated);
+      console.log('eventStringValueUpdated',eventStringValueUpdated);
+
+
+      eventValueUpdated.watch ( (err, response) => { 
+          console.log('err', err);
+         console.log('event passed ValueUpdated: ' + response)
+      });
+      
+      eventStringValueUpdated.watch ( (err, response) => { 
+         console.log('err', err);
+         console.log('event passed StringValueUpdated: ' + response)
+      });
+
+        simpleStorageInstance.get.call('0x5580cfe28510376d934C90F9eD4dAfbf0D79bF03').then((result) => { 
+          console.log('simpleStorageInstance.get.call(accounts[0])');
+          console.log(result);
+        });
+
+
+        function func() {
+          console.log('launch timeout function')
+           simpleStorageInstance.set(343, {from: accounts[0]}).then((result) => {
+                // Get the value from the contract to prove it worked.
+                return simpleStorageInstance.get.call(accounts[0])
+           }).then((result) => {
+                // Update state with the result.
+                return this.setState({ storageValue: result.c[0] })
+           });
+        }
+
+        setTimeout(func.bind(this), 9000);
+
 
         // Stores a given value, 5 by default.
         return simpleStorageInstance.set(6666, {from: accounts[0]})
