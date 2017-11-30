@@ -58,9 +58,12 @@ class App extends Component {
 
       eventValueUpdated.watch ( (err, response) => { 
           console.log('err', err);
-         console.log('event passed ValueUpdated: ' + response)
+          console.log('event passed ValueUpdated: ', response)
       });
-
+simpleStorageInstance.allEvents((err, response) => { 
+          console.log('err', err);
+         console.log('event passed allEvents: ', response)
+      });
         // Stores a given value, 5 by default.
         return simpleStorageInstance.set(5, {from: accounts[0]})
       }).then((result) => {
