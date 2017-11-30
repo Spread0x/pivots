@@ -81,16 +81,23 @@ class App extends Component {
       console.log('instance', instance);
       console.log('allEvents', instance.allEvents());
 
-      const eventValueUpdated = instance.ValueUpdated()
-      const eventStringValueUpdated = instance.StringValueUpdated()
+      console.log('simpleStorageInstance.events', simpleStorage.events.allEvents);
+      const eventValueUpdated = simpleStorageInstance.ValueUpdated({_from:this.state.web3.eth.coinbase});
+      const eventStringValueUpdated = simpleStorageInstance.StringValueUpdated({_from:this.state.web3.eth.coinbase});
       console.log('eventValueUpdated',eventValueUpdated);
       console.log('eventStringValueUpdated',eventStringValueUpdated);
 
+      simpleStorage.events.allEvents.watch ( (err, response) => { 
+          console.log('err', err);
+         console.log('event passed ValueUpdated: ' + response)
+      });
 
       eventValueUpdated.watch ( (err, response) => { 
           console.log('err', err);
          console.log('event passed ValueUpdated: ' + response)
       });
+
+
       
       eventStringValueUpdated.watch ( (err, response) => { 
          console.log('err', err);

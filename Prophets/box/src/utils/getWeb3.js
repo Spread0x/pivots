@@ -25,7 +25,7 @@ let getWeb3 = new Promise(function(resolve, reject) {
 
       web3 = new Web3(provider)
       console.log(web3)
-      console.log(web3.isConnected());
+      console.log(web3.isConnected);
 
       results = {
         web3: web3
