@@ -22,19 +22,19 @@ contract ProphetController {
 
 /////////////////////////////////////////////
 
-  function addProphet(address x) public {
+  function addProphet() public {
   	prophets[msg.sender] = 1;
   	prophetsCount++;
   }  
   function shutdownProphet(address x) public {
   	 if (msg.sender == x || msg.sender == admin) {
-        delete itemList[x];
+        delete prophets[x];
      	prophetsCount--;
      }
   }
 
   function pingProphet(address x) public {
-  	if(prophets[x].isValue) {
+  	if(prophets[x] > 0) {
         IsProphetReady(x);
   	}
   }  
@@ -44,9 +44,9 @@ contract ProphetController {
   	}
   }
 
-  function orderProphecy(string prophecy) public {
-  	prophecy[prophecyCount] = prophecy;
-  	ProphetDestroyed(prophecyCount);
+  function orderProphecy(string prophecyBody) public {
+  	prophecy[prophecyCount] = prophecyBody;
+  	ProphecyOrdered(prophecyCount);
   }  
   function recievePropechy(address x, string result) public {
   	if (msg.sender == x) {
