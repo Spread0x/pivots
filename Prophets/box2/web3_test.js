@@ -98,18 +98,19 @@ contract ProphetController {
 
 var compile = solc.compile(contract);
 var abi = JSON.parse(compile.contracts[":ProphetController"].interface);
+let code = compile.contracts[":ProphetController"].bytecode;
 
 var ethContract = new web3.eth.Contract(abi, {
 	from: '0x80c33434FAec1162f79d8Ba3ae07f846Da9f246c',
-	data: '',
-    gas: 200000, 
+	data: '0x'+code,
+    gas: 3000000, 
     gasPrice: 20000
 });
 var deployedContract = ethContract.deploy({
-    data: '0x0'
+    data: '0x'+code
 }).send({
     from: '0x80c33434FAec1162f79d8Ba3ae07f846Da9f246c',
-    gas: 200000,
+    gas: 3000000,
     gasPrice: '20000'
 }, function(error, transactionHash){ console.log('error, transactionHash',error, transactionHash) })
 .on('error', function(error){ console.log('error',error) })
